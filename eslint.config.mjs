@@ -54,7 +54,7 @@ const eslintConfig = [
     "eslint:recommended",
     "standard",
     "plugin:tailwindcss/recommended",
-    "prettier"
+    "prettier",
   ),
   ...compat.plugins("import", "promise", "n"),
 ];

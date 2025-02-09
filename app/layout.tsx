@@ -1,17 +1,18 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
-import Navbar from "@/components/navigation/navbar";
+import { Toaster } from "@/components/ui/toaster";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
+
 
 const inter = localFont({
   src: "/fonts/InterVF.ttf",
   variable: "--font-inter",
- weight: "100 200 300 400 500 600 700 800 900",
+  weight: "100 200 300 400 500 600 700 800 900",
 });
-
-
 
 export const metadata: Metadata = {
   title: "Dev Overflow",
@@ -22,30 +23,29 @@ export const metadata: Metadata = {
   },
 };
 
+const RootLayout = async ({ children }: { children: ReactNode }) => {
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  const session = await auth();
   return (
-    <html lang="en" 
-    suppressContentEditableWarning
-    >
-      <body
-        className={`${inter.variable} antialiased`}
-      >
+    <html lang="en" suppressContentEditableWarning>
+      <SessionProvider session={session}>
+
+    
+      <body className={`${inter.variable} antialiased`}>
         <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
         >
-          <Navbar />
-        {children}
+          {children}
         </ThemeProvider>
-      
+        
+      <Toaster />
       </body>
+      </SessionProvider>
     </html>
   );
 }
+
+export default RootLayout;
