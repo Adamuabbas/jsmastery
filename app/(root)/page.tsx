@@ -1,14 +1,15 @@
-import { ReactNode } from "react";
+import { auth } from "@/auth";
 
-import Navbar from "@/components/navigation/navbar";
+const Home = async () => {
+  const session = await auth();
 
-const RootLayout = ({ children }: { children: ReactNode }) => {
+  console.log(session);
+
   return (
-    <main>
-      <Navbar />
-      {children}
-    </main>
+    <>
+      <h1 className="h1-bold">Welcome to the world of Next.js</h1>
+    </>
   );
 };
 
-export default RootLayout;
+export default Home;
